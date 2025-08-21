@@ -21,4 +21,10 @@ from Products p join Suppliers s on p.SupplierID = s.SupplierID
 select p.productID, p.productName, s.CompanyName, s.country
 from Products p , Suppliers s where p.SupplierID = s.SupplierID 
 
---จงแสดงข้อมูลหมยเลขใบสั่งชื้อและชื่อบริษัทขนส่งส
+--จงแสดงข้อมูลหมยเลขใบสั่งชื้อและชื่อบริษัทขนส่งสินค้าของใบสั่งชื้อหมยเลข 10275
+
+select CompanyName, OrderID
+from   orders,Shippers
+where  Shippers.ShipperID = Orders.ShipVia
+AND  OrderID = 10275
+
