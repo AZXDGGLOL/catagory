@@ -28,3 +28,25 @@ from   orders,Shippers
 where  Shippers.ShipperID = Orders.ShipVia
 AND  OrderID = 10275
 
+select CompanyName, OrderID
+From Orders Join  Shippers
+on Shippers.ShipperID=Orders.Shipvia
+where OrderID=10275
+
+--ต้องการรหัสรหัสพนักงาน ชื่อพนักงาน รหัสใบสั่งชิ้อที่เกี่ยวข้อง เรียงตมลำดับรหัสพนักงาน
+select e.EmployeeID , FirstName , o.OrderID
+from Employees as e join orders as o on e.EmployeeID = o.EmployeeID  
+order by EmployeeID
+-- ต้องการรหัสสินค้า เมือง และประเทศของบริษัทผู้จำห่าย
+select productID ,ProductName, city, Country
+from Products p join Suppliers s on p.SupplierID = s.SupplierID
+
+-- ต้องการชื่อบริษัทขนส่ง และจำนวนใบสั่งชื้อที่เกี่ยวข้อง
+select CompanyName, count(*)
+from orders as o join shippers as s on o.Shipvia = s.shipperID
+GROUP BY CompanyName
+-- ต้องการรหัสสินค้า ชื่อ และจำนวนทั้งหมดที่ขายได้
+select p.ProductID, p.ProductName, sum(Quantity)
+from products p join [Order Details] od  on  p.ProductID = od.ProductID
+GROUP BY p.ProductID,p.ProductName
+order by 1
