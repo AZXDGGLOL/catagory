@@ -50,3 +50,19 @@ select p.ProductID, p.ProductName, sum(Quantity)
 from products p join [Order Details] od  on  p.ProductID = od.ProductID
 GROUP BY p.ProductID,p.ProductName
 order by 1
+
+--ต้องการ รหัสพนักงาน ชืีอพนักงาน จำนวนใบสั่งชื้อที่เกี่ยวข้อง ผลรวมของค่ขนส่งในปี 1998
+SELECT e.EmployeeID, FirstName , count(*) as [จำนวน order]
+        , sum(freight) as [sum of freight]
+from Employees e join Orders o on e.EmployeeID = o.EmployeeID
+where year(orderdate) = 1998
+group by e.EmployeeID, FirstName
+
+-- ต้องการรหัสสินค้า ชื่อสินค้า ที่ nancy  ขายได้ ทั้งหมด เรียงตามลำดับรหัสสิน้า
+select *
+from Employees e join orders o on e.EmployeeID = o.EmployeeID
+                join [Order Details] od on o.OrderID = od.OrderID
+                join products p on od.ProductID = p.ProductID
+where e.FirstName = 'Nancy'
+ORDER BY p.ProductID
+-- ต้องการชื้อบริษัท ลูกคค้าชื้อ around the horn ชื้อสินค้าที่มาจากประเทศอะไรบ้าง
