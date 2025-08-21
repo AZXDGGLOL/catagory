@@ -59,10 +59,32 @@ where year(orderdate) = 1998
 group by e.EmployeeID, FirstName
 
 -- ต้องการรหัสสินค้า ชื่อสินค้า ที่ nancy  ขายได้ ทั้งหมด เรียงตามลำดับรหัสสิน้า
-select *
+select distinct p.ProductID,p.ProductName
 from Employees e join orders o on e.EmployeeID = o.EmployeeID
                 join [Order Details] od on o.OrderID = od.OrderID
                 join products p on od.ProductID = p.ProductID
 where e.FirstName = 'Nancy'
-ORDER BY p.ProductID
+ORDER BY productID
 -- ต้องการชื้อบริษัท ลูกคค้าชื้อ around the horn ชื้อสินค้าที่มาจากประเทศอะไรบ้าง
+Select distinct s.Country
+from Customers c join orders o on c.CustomerID = o.CustomerID
+                join [Order Details]  od on o.OrderID = od.orderID
+                join Products p on od.ProductID = p.ProductID
+                join Suppliers s on s.SupplierID = p.SupplierID
+where c.CompanyName = 'Around the Horn'
+-- บริษัทลูกค้าชื่อ Around the Horn ซื้อสินค้าอะไรบ้าง จำนวนเท่าใดSelect distinct s.Country
+Select p.ProductID, p.ProductName, sum(Quantity) as [sum of Quantity]
+from Customers c join orders o on c.CustomerID = o.CustomerID
+                join [Order Details]  od on o.OrderID = od.orderID
+                join Products p on od.ProductID = p.ProductID
+                join Suppliers s on s.SupplierID = p.SupplierID
+where c.CompanyName = 'Around the Horn'
+GROUP BY p.ProductID, p.ProductName
+ORDER BY 1
+-- ต้องการหมายเลขใบสั่งชื้อ ชื่อพนักงาน และยอดขายในใบสั่งชื้อนั้น
+select o.OrderID, e.FirstName,
+        sum((od.Quantity * od.UnitPrice * (1-od.discount))) as totalCash
+from orders o join Employees e on o.EmployeeID = e.EmployeeID
+            join [Order Details] od on o.OrderID = od.OrderID
+GROUP BY o.OrderID, e.FirstName
+ORDER BY OrderID
